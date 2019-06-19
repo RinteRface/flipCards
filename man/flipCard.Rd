@@ -28,13 +28,15 @@ flipCard(front = NULL, front_footer = NULL, back = NULL,
 \item{auto}{Whether to flip on hover or not. FALSE by default.}
 }
 \value{
-a shiny tag.
+a shiny tag
 }
 \description{
 flip card for Bootstrap.
 }
 \examples{
 if (interactive()) {
+ library(shiny)
+ library(flipCards)
  shinyApp(
   ui = fluidPage(
     flipCard(
@@ -42,8 +44,8 @@ if (interactive()) {
         numericInput("n", "n", 1),
         plotOutput("plot")
       ),
-      #flip_cover = flipCover("https://demos.creative-tim.com/rotating-css-card/images/rotating_card_thumb.png"),
-      #flip_user = flipUser("https://demos.creative-tim.com/rotating-css-card/images/rotating_card_profile2.png"),
+      flip_cover = flipCover("https://image.flaticon.com/icons/svg/186/186236.svg"),
+      flip_user = flipUser("https://image.flaticon.com/icons/svg/145/145867.svg"),
       front_footer = "I am the front footer",
       back = tagList(
         checkboxGroupInput(

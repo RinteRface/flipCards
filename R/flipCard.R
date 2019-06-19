@@ -13,11 +13,14 @@
 #' @param auto Whether to flip on hover or not. FALSE by default.
 #'
 #'
-#' @return a shiny tag.
+#' @return a shiny tag
 #' @export
 #'
+#' @importFrom shiny tagList icon column
 #' @examples
 #' if (interactive()) {
+#'  library(shiny)
+#'  library(flipCards)
 #'  shinyApp(
 #'   ui = fluidPage(
 #'     flipCard(
@@ -25,8 +28,8 @@
 #'         numericInput("n", "n", 1),
 #'         plotOutput("plot")
 #'       ),
-#'       #flip_cover = flipCover("https://demos.creative-tim.com/rotating-css-card/images/rotating_card_thumb.png"),
-#'       #flip_user = flipUser("https://demos.creative-tim.com/rotating-css-card/images/rotating_card_profile2.png"),
+#'       flip_cover = flipCover("https://image.flaticon.com/icons/svg/186/186236.svg"),
+#'       flip_user = flipUser("https://image.flaticon.com/icons/svg/145/145867.svg"),
 #'       front_footer = "I am the front footer",
 #'       back = tagList(
 #'         checkboxGroupInput(
@@ -66,16 +69,16 @@ flipCard <- function(front = NULL, front_footer = NULL, back = NULL, back_footer
         htmltools::tags$div(
           class = "rating",
           if (!auto) {
-            shiny::tagList(
+            tagList(
               htmltools::tags$button(
                 class = "btn btn-simple",
                 onclick = "rotateCard(this)",
-                shiny::icon("mail-forward")
+                icon("mail-forward")
               ),
               front_footer
             )
           } else {
-            shiny::taglist(shiny::icon("mail-forward"), front_footer)
+            tagList(icon("mail-forward"), front_footer)
           }
         )
       )
@@ -93,16 +96,16 @@ flipCard <- function(front = NULL, front_footer = NULL, back = NULL, back_footer
     htmltools::tags$div(
       class = "footer",
       if (!auto) {
-        shiny::tagList(
+        tagList(
           htmltools::tags$button(
             class = "btn btn-simple",
             onclick = "rotateCard(this)",
-            shiny::icon("mail-forward")
+            icon("mail-forward")
           ),
           back_footer
         )
       } else {
-        shiny::taglist(shiny::icon("mail-forward"), back_footer)
+        tagList(icon("mail-forward"), back_footer)
       }
     )
   )
@@ -110,7 +113,7 @@ flipCard <- function(front = NULL, front_footer = NULL, back = NULL, back_footer
   containerCl <- "card-container"
   if (!auto) containerCl <- paste0(containerCl, " manual-flip")
 
-  flipCardTag <- shiny::column(
+  flipCardTag <- column(
     width = width,
     htmltools::tags$div(
       class = containerCl,
