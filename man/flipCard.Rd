@@ -6,7 +6,7 @@
 \usage{
 flipCard(front = NULL, front_footer = NULL, back = NULL,
   back_footer = NULL, back_header = NULL, flip_cover = NULL,
-  flip_user = NULL, width = 6)
+  flip_user = NULL, width = 6, auto = FALSE)
 }
 \arguments{
 \item{front}{Card front content.}
@@ -24,6 +24,8 @@ flipCard(front = NULL, front_footer = NULL, back = NULL,
 \item{flip_user}{Card front user cover.  Slot for \link{flipUser}.}
 
 \item{width}{Card width.}
+
+\item{auto}{Whether to flip on hover or not. FALSE by default.}
 }
 \value{
 a shiny tag.
@@ -36,19 +38,32 @@ if (interactive()) {
  shinyApp(
   ui = fluidPage(
     flipCard(
-     front = tagList(
-      numericInput("n", "n", 1),
-      plotOutput("plot")
-     ),
-     flip_cover = flipCover("https://demos.creative-tim.com/rotating-css-card/images/rotating_card_thumb.png"),
-     flip_user = flipUser("https://demos.creative-tim.com/rotating-css-card/images/rotating_card_profile2.png"),
-     front_footer = "I am the front footer",
-     back = "This is the back",
-     back_footer = "This is the back footer"
+      front = tagList(
+        numericInput("n", "n", 1),
+        plotOutput("plot")
+      ),
+      #flip_cover = flipCover("https://demos.creative-tim.com/rotating-css-card/images/rotating_card_thumb.png"),
+      #flip_user = flipUser("https://demos.creative-tim.com/rotating-css-card/images/rotating_card_profile2.png"),
+      front_footer = "I am the front footer",
+      back = tagList(
+        checkboxGroupInput(
+          inline = TRUE,
+          "variable",
+          "Variables to show:",
+          c("Cylinders" = "cyl",
+            "Transmission" = "am",
+            "Gears" = "gear")
+        ),
+        tableOutput("data")
+      ),
+      back_footer = "This is the back footer"
     )
   ),
   server = function(input, output) {
     output$plot <- renderPlot( plot(head(cars, input$n)) )
+    output$data <- renderTable({
+      mtcars[, c("mpg", input$variable), drop = FALSE]
+    }, rownames = TRUE)
   }
  )
 }
